@@ -1,18 +1,34 @@
 package com.dev.texttopicapp.controller;
 
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import com.dev.texttopicapp.config.TelegramBotConfig;
+import com.dev.texttopicapp.service.TelegramBotService;
+import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
 
+import java.text.MessageFormat;
 
-public class TelegramBotController extends TelegramLongPollingBot {
+@RestController
+@Log4j
+public class TelegramBotController {
 
-    @Override
-    public void onUpdateReceived(Update update) {
+    private final TelegramBotService telegramBotService;
 
+    @Autowired
+    public TelegramBotController(TelegramBotService telegramBotService) {
+        this.telegramBotService = telegramBotService;
     }
 
-    @Override
-    public String getBotUsername() {
-        return null;
+    @GetMapping("/sendMessage")
+    public Mono<String> sendMessage(@RequestParam String message) {
+        log.debug(MessageFormat.format("Sending message: ", message));
+        return telegramBotService.sendMessage(message);
     }
 }
