@@ -1,8 +1,8 @@
-package com.dev.texttopicapp.controller;
+package com.idev.text2pic;
 
-import com.dev.texttopicapp.service.TelegramBotService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,12 +12,15 @@ import java.text.MessageFormat;
 
 @Controller
 @Log4j
+@Component
 public class TelegramBotController {
     private final TelegramBotService telegramBotService;
 
     @Autowired
     public TelegramBotController(TelegramBotService telegramBotService) {
+        System.out.println("TelegramBotController");
         this.telegramBotService = telegramBotService;
+
     }
 
     @PostMapping("/sendMessage")
@@ -27,10 +30,8 @@ public class TelegramBotController {
     }
     @PostMapping("/getUpdates")
     public String getUpdates() {
-        log.debug(telegramBotService.getUpdates());
-        return telegramBotService.getUpdates();
+        String updates = telegramBotService.getUpdates();
+        log.debug(MessageFormat.format("Getting updates: ", updates));
+        return updates;
     }
-
-
-
 }

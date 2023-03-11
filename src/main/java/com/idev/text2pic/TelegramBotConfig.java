@@ -1,4 +1,4 @@
-package com.dev.texttopicapp.config;
+package com.idev.text2pic;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

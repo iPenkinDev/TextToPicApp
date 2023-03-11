@@ -1,6 +1,5 @@
-package com.dev.texttopicapp.service;
+package com.idev.text2pic;
 
-import com.dev.texttopicapp.config.TelegramBotConfig;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +19,7 @@ public class TelegramBotService {
 
     @Autowired
     public TelegramBotService(WebClient webClient) {
+        System.out.println("TelegramBotService initialized");
         this.webClient = webClient;
     }
 
@@ -47,7 +47,7 @@ public class TelegramBotService {
     }
 
     @Bean
-    public WebClient webClient() {
+    public static WebClient webClient() {
         HttpClient httpClient = HttpClient.create();
         return WebClient
                 .builder()
