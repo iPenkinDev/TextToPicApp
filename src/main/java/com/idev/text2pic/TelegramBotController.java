@@ -1,5 +1,6 @@
 package com.idev.text2pic;
 
+import com.google.gson.Gson;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,13 +15,13 @@ import java.text.MessageFormat;
 @Log4j
 @Component
 public class TelegramBotController {
+
     private final TelegramBotService telegramBotService;
 
     @Autowired
     public TelegramBotController(TelegramBotService telegramBotService) {
         System.out.println("TelegramBotController");
         this.telegramBotService = telegramBotService;
-
     }
 
     @PostMapping("/sendMessage")
@@ -28,9 +29,10 @@ public class TelegramBotController {
         log.debug(MessageFormat.format("Sending message: ", message));
         return telegramBotService.sendMessage(message);
     }
+
     @PostMapping("/getUpdates")
     public String getUpdates() {
-        String updates = telegramBotService.getUpdates();
+        String updates =""; //telegramBotService.getUpdates(0);
         log.debug(MessageFormat.format("Getting updates: ", updates));
         return updates;
     }

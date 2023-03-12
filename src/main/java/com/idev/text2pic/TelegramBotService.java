@@ -1,5 +1,6 @@
 package com.idev.text2pic;
 
+import com.google.gson.Gson;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,26 +14,33 @@ import reactor.netty.http.client.HttpClient;
 @Service
 @Log4j
 public class TelegramBotService {
-    private final TelegramBotConfig telegramBotConfig = new TelegramBotConfig();
+    private final TelegramBotConfig telegramBotConfig;
+
+    private Gson gson = new Gson();
 
     private final WebClient webClient;
 
     @Autowired
-    public TelegramBotService(WebClient webClient) {
-        System.out.println("TelegramBotService initialized");
+    public TelegramBotService(TelegramBotConfig telegramBotConfig, WebClient webClient) {
+        this.telegramBotConfig = telegramBotConfig;
         this.webClient = webClient;
     }
 
-    public String getUpdates() {
+    public TelegramResponse getUpdates(long offset) {
         System.out.println("Getting updates");
-        String url = telegramBotConfig.getTelegramApiUrl() + telegramBotConfig.getBotToken() + "/getUpdates";
-        return webClient
+        String url = telegramBotConfig.getTelegramApiUrl() + telegramBotConfig.getBotToken()
+                + "/getUpdates?offset=" + offset + "&timeout=20";
+        System.out.println("url=" + url);
+        String json = webClient
                 .get()
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+
+        TelegramResponse response = gson.fromJson(json, TelegramResponse.class);
+        return response;
     }
 
     public Mono<String> sendMessage(String message) {
