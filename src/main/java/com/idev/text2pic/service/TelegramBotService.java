@@ -1,6 +1,8 @@
-package com.idev.text2pic;
+package com.idev.text2pic.service;
 
 import com.google.gson.Gson;
+import com.idev.text2pic.config.TelegramBotConfig;
+import com.idev.text2pic.model.TelegramResponse;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
+
+import java.util.HashMap;
 
 @Service
 @Log4j
@@ -43,15 +46,35 @@ public class TelegramBotService {
         return response;
     }
 
-    public Mono<String> sendMessage(String message) {
+    //  @JvmField var chat_id: Long,
+    //  @JvmField var text: String,
+
+    public String sendMessage(String message, int chatId) {
         log.debug("Sending message: " + message);
-        String url = telegramBotConfig.getTelegramApiUrl() + telegramBotConfig.getBotToken() + "/sendMessage?chat_id=" + telegramBotConfig.getBotName() + "&text=" + message;
+        String url = telegramBotConfig.getTelegramApiUrl() + telegramBotConfig.getBotToken()
+                + "/sendMessage";
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("chat_id", chatId);
+        map.put("text", message);
+
+        // send webclient request with post method and body
+
         return webClient
-                .get()
+                .post()
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
+                .header("content-type", "application/json")
+
+                .bodyValue(gson.toJson(map))
+
                 .retrieve()
-                .bodyToMono(String.class);
+                .onStatus(code -> code.value() >= 400,
+                        response -> response.bodyToMono(String.class).flatMap(body -> {
+                            throw new RuntimeException("Client error: " + body);
+                        }))
+
+                .bodyToMono(String.class)
+                .block();
     }
 
     @Bean

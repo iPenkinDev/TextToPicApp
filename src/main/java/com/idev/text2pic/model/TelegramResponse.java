@@ -1,5 +1,6 @@
-package com.idev.text2pic;
+package com.idev.text2pic.model;
 
+import com.idev.text2pic.model.Result;
 import lombok.Data;
 
 import java.util.List;

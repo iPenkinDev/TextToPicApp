@@ -1,0 +1,6 @@
+2023-03-12 15:42:42 DEBUG TelegramBotService:52 - Sending message: bot answer for message=hello
+2023-03-12 15:44:56 DEBUG TelegramBotService:51 - Sending message: bot answer for message=hi
+2023-03-12 15:48:24 DEBUG TelegramBotService:51 - Sending message: bot answer for message=hi
+2023-03-12 15:49:58 DEBUG TelegramBotService:51 - Sending message: bot answer for message=hi
+2023-03-12 15:50:07 DEBUG TelegramBotService:51 - Sending message: bot answer for message=hui
+2023-03-12 16:22:29 DEBUG TelegramBotService:53 - Sending message: bot answer for message=HI

@@ -1,4 +1,4 @@
-package com.idev.text2pic;
+package com.idev.text2pic.model;
 
 import lombok.Data;
 
