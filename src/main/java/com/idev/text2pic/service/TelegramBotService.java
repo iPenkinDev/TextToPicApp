@@ -46,9 +46,6 @@ public class TelegramBotService {
         return response;
     }
 
-    //  @JvmField var chat_id: Long,
-    //  @JvmField var text: String,
-
     public String sendMessage(String message, int chatId) {
         log.debug("Sending message: " + message);
         String url = telegramBotConfig.getTelegramApiUrl() + telegramBotConfig.getBotToken()
@@ -64,9 +61,7 @@ public class TelegramBotService {
                 .uri(url)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("content-type", "application/json")
-
                 .bodyValue(gson.toJson(map))
-
                 .retrieve()
                 .onStatus(code -> code.value() >= 400,
                         response -> response.bodyToMono(String.class).flatMap(body -> {

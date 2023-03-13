@@ -4,3 +4,5 @@
 2023-03-12 15:49:58 DEBUG TelegramBotService:51 - Sending message: bot answer for message=hi
 2023-03-12 15:50:07 DEBUG TelegramBotService:51 - Sending message: bot answer for message=hui
 2023-03-12 16:22:29 DEBUG TelegramBotService:53 - Sending message: bot answer for message=HI
+2023-03-13 14:03:22 DEBUG TelegramBotService:50 - Sending message: bot answer for message=/start
+2023-03-13 14:04:07 DEBUG TelegramBotService:50 - Sending message: bot answer for message=how create method in java
